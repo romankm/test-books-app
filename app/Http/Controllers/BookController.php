@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreBookRequest;
 use App\Models\Book;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
@@ -24,21 +24,16 @@ class BookController extends Controller
      */
     public function create(): View
     {
-        return view('book.create');
+        $book = new Book;
+
+        return view('book.create', compact('book'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): View|RedirectResponse
+    public function store(StoreBookRequest $request): View|RedirectResponse
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'author' => 'required|string|max:255',
-            'publication_year' => 'required',
-            'isbn' => 'required|exists:App\Models\Category,id'
-        ]);
-
         Book::create([
             'title' => $request->title,
             'author' => $request->author,
@@ -46,7 +41,7 @@ class BookController extends Controller
             'isbn' => $request->isbn,
         ]);
 
-        return redirect()->route('book.index')->with('status', 'Book Created Successfully');
+        return redirect()->route('books.index')->with('status', 'Book Created Successfully');
     }
 
     /**
@@ -68,9 +63,17 @@ class BookController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Book $book): RedirectResponse
     {
-        return redirect()->route('book.index')->with('status', 'Book Updated Successfully');
+        return redirect()->route('books.index')->with('status', 'Book Updated Successfully');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function remove(Book $book): View
+    {
+        return view('book.remove', compact('book'));
     }
 
     /**
@@ -80,6 +83,6 @@ class BookController extends Controller
     {
         $book->delete();
 
-        return redirect()->route('book.index')->with('status', 'Book Deleted Successfully');
+        return redirect()->route('books.index')->with('status', 'Book Deleted Successfully');
     }
 }
