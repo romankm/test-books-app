@@ -14,6 +14,7 @@ services:
       - php
 
   php:
+    container_name: test-books-app
     build:
       context: .
       dockerfile: ./docker/php.Dockerfile
