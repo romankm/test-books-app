@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreBookRequest;
+use App\Http\Requests\BookFormRequest;
 use App\Models\Book;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -32,14 +32,11 @@ class BookController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBookRequest $request): View|RedirectResponse
+    public function store(BookFormRequest $request): View|RedirectResponse
     {
-        Book::create([
-            'title' => $request->title,
-            'author' => $request->author,
-            'publication_year' => $request->publication_year,
-            'isbn' => $request->isbn,
-        ]);
+        $validatedData = $request->validated();
+
+        Book::create($validatedData);
 
         return redirect()->route('books.index')->with('status', 'Book Created Successfully');
     }
@@ -63,8 +60,13 @@ class BookController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Book $book): RedirectResponse
+    public function update(BookFormRequest $request, Book $book): RedirectResponse
     {
+        $validatedData = $request->validated();
+
+        $book->fill($validatedData);
+        $book->save();
+
         return redirect()->route('books.index')->with('status', 'Book Updated Successfully');
     }
 

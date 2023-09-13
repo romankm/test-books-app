@@ -9,9 +9,7 @@
 <body>
     <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{{ route('books.index') }}">Books</a>
-        </div>
-        <div class="container-fluid">
+            <a type="button" class="btn btn-success" href="{{ route('books.index') }}">All Books</a>
             <a type="button" class="btn btn-success" href="{{ route('books.create') }}">Create New</a>
         </div>
     </nav>

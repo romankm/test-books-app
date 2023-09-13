@@ -7,13 +7,12 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-12">
-            <a href="{{ route('books.edit', ['book' => $book])}}">{{ route('books.edit', ['book' => $book])}}</a>
-            <form method="POST" action="{{ route('books.edit', ['book' => $book])}}">
+        <div class="col">
+            <form method="POST" action="{{ route('books.update', ['book' => $book])}}">
                 @csrf
-                @method('PATCH')
-
-                <button type="submit" class="btn btn-primary">Create</button>
+                @method('PUT')
+                @include('book.form-fields')
+                <button type="submit" class="btn btn-primary">Save</button>
             </form>
         </div>
     </div>
