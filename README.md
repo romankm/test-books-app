@@ -4,7 +4,7 @@ Make sure:
  - you have installed docker and docker-compose
  - http://localhost:8888 is not used
 
-php artisan key:generate
+
 1. Run:
     cp .env.example .env
 2. Run:
